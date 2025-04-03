@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Preview Image - Apple Leaf Disease Classifier</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1><i class="fas fa-leaf"></i> Apple Leaf Disease Classifier</h1>
+        <p>Review your image before classification</p>
+      </div>
+    </header>
+
+    <main class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <div class="card">
+        <h2>Review Your Image</h2>
+        <p>
+          This is the image you've uploaded. If you're satisfied with it,
+          proceed with classification.
+        </p>
+
+        <div class="result-image">
+          <img src="{{ image_path }}" alt="Uploaded leaf image" />
+        </div>
+
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+          "
+        >
+          <a href="{{ url_for('index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Upload Different Image
+          </a>
+
+          <form action="{{ url_for('classify_image') }}" method="post">
+            <button type="submit" class="btn">
+              <i class="fas fa-search"></i> Analyze Leaf
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>What Happens Next?</h2>
+        <p>
+          Our AI model will analyze your leaf image using a specialized
+          ResNet-50 deep learning model trained on thousands of apple leaf
+          images. The system can detect several common apple leaf diseases:
+        </p>
+
+        <ul style="margin-top: 15px; margin-bottom: 15px; padding-left: 20px">
+          <li>Frog Eye Leaf Spot</li>
+          <li>Powdery Mildew</li>
+          <li>Apple Rust</li>
+          <li>Apple Scab</li>
+          <li>Complex (multiple conditions)</li>
+          <li>Healthy leaves</li>
+        </ul>
+
+        <p>
+          After analysis, you'll receive a detailed report with disease
+          information and management recommendations.
+        </p>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>
+          Apple Leaf Disease Classifier &copy; 2025 | Powered by TensorFlow and
+          ResNet
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

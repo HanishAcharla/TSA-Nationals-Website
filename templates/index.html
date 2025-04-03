@@ -1,13 +1,208 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Apple Disease Classifier</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apple Leaf Disease Classifier</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <h1>Upload an Image of an Apple Leaf</h1>
-    <form method="post" enctype="multipart/form-data">
-      <input type="file" name="image" accept="image/*" required />
-      <input type="submit" value="Classify" />
-    </form>
+    <header>
+      <div class="container">
+        <h1><i class="fas fa-leaf"></i> Apple Leaf Disease Classifier</h1>
+        <p>Upload an image of an apple leaf to identify potential diseases</p>
+      </div>
+    </header>
+
+    <main class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <div class="card">
+        <h2>Upload Your Leaf Image</h2>
+        <p>
+          Take a clear photo of an apple leaf and upload it to identify
+          diseases. For best results, ensure good lighting and that the leaf
+          fills most of the frame.
+        </p>
+
+        <form
+          action="{{ url_for('upload_file') }}"
+          method="post"
+          enctype="multipart/form-data"
+          id="upload-form"
+        >
+          <div class="upload-zone" id="drop-zone">
+            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+            <h3>Drag & Drop your image here</h3>
+            <p>or</p>
+            <input
+              type="file"
+              name="image"
+              id="file-input"
+              accept="image/*"
+              required
+            />
+            <button type="button" class="btn" id="browse-btn">
+              Browse Files
+            </button>
+            <div class="image-preview" id="preview-container">
+              <img id="preview-image" src="#" alt="Preview" />
+            </div>
+          </div>
+          <div class="text-center" style="text-align: center; margin-top: 20px">
+            <button type="submit" class="btn" id="upload-btn" disabled>
+              <i class="fas fa-upload"></i> Upload Image
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>How It Works</h2>
+        <div
+          style="
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            text-align: center;
+          "
+        >
+          <div style="flex: 1; min-width: 200px; padding: 15px">
+            <div
+              style="
+                font-size: 40px;
+                color: var(--primary-color);
+                margin-bottom: 10px;
+              "
+            >
+              <i class="fas fa-upload"></i>
+            </div>
+            <h3>1. Upload</h3>
+            <p>Upload a clear photo of an apple leaf</p>
+          </div>
+          <div style="flex: 1; min-width: 200px; padding: 15px">
+            <div
+              style="
+                font-size: 40px;
+                color: var(--primary-color);
+                margin-bottom: 10px;
+              "
+            >
+              <i class="fas fa-cogs"></i>
+            </div>
+            <h3>2. Analysis</h3>
+            <p>Our AI model analyzes the leaf image</p>
+          </div>
+          <div style="flex: 1; min-width: 200px; padding: 15px">
+            <div
+              style="
+                font-size: 40px;
+                color: var(--primary-color);
+                margin-bottom: 10px;
+              "
+            >
+              <i class="fas fa-clipboard-list"></i>
+            </div>
+            <h3>3. Results</h3>
+            <p>Get detailed results and recommendations</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>
+          Apple Leaf Disease Classifier &copy; 2025 | Powered by TensorFlow and
+          ResNet
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      const fileInput = document.getElementById("file-input");
+      const uploadBtn = document.getElementById("upload-btn");
+      const browseBtn = document.getElementById("browse-btn");
+      const previewContainer = document.getElementById("preview-container");
+      const previewImage = document.getElementById("preview-image");
+      const dropZone = document.getElementById("drop-zone");
+
+      // Open file browser when the "Browse Files" button is clicked
+      browseBtn.addEventListener("click", () => {
+        fileInput.click();
+      });
+
+      // Preview the selected image
+      fileInput.addEventListener("change", function () {
+        if (this.files && this.files[0]) {
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            previewImage.src = e.target.result;
+            previewContainer.style.display = "block";
+            uploadBtn.disabled = false;
+          };
+
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+
+      // Drag and drop functionality
+      ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+      });
+
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      ["dragenter", "dragover"].forEach((eventName) => {
+        dropZone.addEventListener(eventName, highlight, false);
+      });
+
+      ["dragleave", "drop"].forEach((eventName) => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+      });
+
+      function highlight() {
+        dropZone.classList.add("highlight");
+      }
+
+      function unhighlight() {
+        dropZone.classList.remove("highlight");
+      }
+
+      dropZone.addEventListener("drop", handleDrop, false);
+
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+
+        if (files && files[0]) {
+          fileInput.files = files;
+
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            previewImage.src = e.target.result;
+            previewContainer.style.display = "block";
+            uploadBtn.disabled = false;
+          };
+
+          reader.readAsDataURL(files[0]);
+        }
+      }
+    </script>
   </body>
 </html>

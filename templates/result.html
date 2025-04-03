@@ -1,10 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Classification Result</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Classification Result - Apple Leaf Disease Classifier</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <h1>Predicted Class: {{ result }}</h1>
-    <a href="{{ url_for('upload_file') }}">Try another image</a>
+    <header>
+      <div class="container">
+        <h1><i class="fas fa-leaf"></i> Apple Leaf Disease Classifier</h1>
+        <p>Detailed analysis results</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="result-container">
+        <div class="card result-image">
+          <h2>Analyzed Leaf Image</h2>
+          <img src="{{ image_path }}" alt="Analyzed leaf image" />
+        </div>
+
+        <div class="card result-details">
+          <div class="result-header">
+            <h2 class="disease-name">{{ result }}</h2>
+            {% if result == 'Healthy' %}
+            <span class="badge healthy">Healthy</span>
+            {% elif result == 'Complex' %}
+            <span class="badge severe">Severe</span>
+            {% else %}
+            <span class="badge moderate">Needs Attention</span>
+            {% endif %}
+          </div>
+
+          <div class="info-section">
+            <h3>Description</h3>
+            <p>{{ description }}</p>
+          </div>
+
+          <div class="info-section">
+            <h3>Recommendations</h3>
+            <div class="recommendations">
+              <p>{{ recommendations }}</p>
+            </div>
+          </div>
+
+          <div class="probabilities">
+            <h3>Confidence Analysis</h3>
+            <p>Probability breakdown for different conditions:</p>
+
+            {% for class_name, probability in probabilities.items() %}
+            <div class="prob-bar">
+              <div class="prob-label">{{ class_name }}</div>
+              <div class="prob-bar-container">
+                {% set prob_value = probability.replace('%', '') | float %}
+                <div
+                  class="prob-bar-fill"
+                  style="width: {{ prob_value }}%"
+                ></div>
+              </div>
+              <div class="prob-value">{{ probability }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 10px">
+          <a href="{{ url_for('index') }}" class="btn">
+            <i class="fas fa-arrow-left"></i> Analyze Another Leaf
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>
+          Apple Leaf Disease Classifier &copy; 2025 | Powered by TensorFlow and
+          ResNet
+        </p>
+        <p>
+          <small
+            >Note: This tool provides guidance only and should not replace
+            professional agricultural advice.</small
+          >
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

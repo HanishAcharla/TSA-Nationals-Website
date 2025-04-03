@@ -1,0 +1,279 @@
+/* static/css/style.css */
+:root {
+  --primary-color: #4caf50;
+  --primary-dark: #388e3c;
+  --primary-light: #81c784;
+  --secondary-color: #e8f5e9;
+  --text-color: #333;
+  --light-text: #f5f5f5;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: var(--box-shadow);
+  margin-bottom: 30px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+header p {
+  margin: 10px 0 0;
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.upload-zone {
+  border: 2px dashed var(--primary-light);
+  border-radius: var(--border-radius);
+  padding: 40px;
+  text-align: center;
+  transition: border-color 0.3s;
+  background-color: var(--secondary-color);
+  position: relative;
+}
+
+.upload-zone:hover {
+  border-color: var(--primary-color);
+}
+
+.upload-zone.highlight {
+  border-color: var(--primary-color);
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.upload-zone input[type="file"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload-icon {
+  font-size: 60px;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+.btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  background-color: #f5f5f5;
+  color: var(--text-color);
+  border: 1px solid #ddd;
+}
+
+.btn-secondary:hover {
+  background-color: #e8e8e8;
+}
+
+.image-preview {
+  margin-top: 20px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  max-width: 100%;
+  display: none;
+}
+
+.image-preview img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.alert {
+  padding: 10px 15px;
+  background-color: #f44336;
+  color: white;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+}
+
+.result-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.result-image {
+  text-align: center;
+}
+
+.result-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--primary-light);
+}
+
+.result-details {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 25px;
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.disease-name {
+  font-size: 1.8rem;
+  color: var(--primary-dark);
+  margin: 0;
+}
+
+.badge {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.badge.healthy {
+  background-color: #4caf50;
+}
+
+.badge.moderate {
+  background-color: #ff9800;
+}
+
+.badge.severe {
+  background-color: #f44336;
+}
+
+.info-section {
+  margin-bottom: 20px;
+}
+
+.info-section h3 {
+  color: var(--primary-dark);
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.recommendations {
+  background-color: var(--secondary-color);
+  padding: 15px;
+  border-radius: var(--border-radius);
+  border-left: 4px solid var(--primary-color);
+}
+
+.probabilities {
+  margin-top: 30px;
+}
+
+.prob-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.prob-label {
+  width: 150px;
+  font-weight: 500;
+}
+
+.prob-value {
+  width: 60px;
+  text-align: right;
+  font-weight: 600;
+}
+
+.prob-bar-container {
+  flex-grow: 1;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  margin: 0 10px;
+  overflow: hidden;
+}
+
+.prob-bar-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .upload-zone {
+    padding: 25px;
+  }
+}
