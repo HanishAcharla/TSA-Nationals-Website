@@ -13,7 +13,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
 app.secret_key = 'your_secret_key_here'  # Replace with a secure key for production
 
 # Load your trained model once when the server starts
-model_path = "/Users/hanishacharla/Downloads/ResNet-Model.h5"   # Adjust this path as needed
+model_path = "ResNet-Model.h5"   # Adjust this path as needed
 model = tf.keras.models.load_model(model_path)
 class_names = ['Complex', 'Frog_Eye_Leaf_Spot', 'Healthy', 'Powdery_Mildew', 'Rust', 'Scab']
 
